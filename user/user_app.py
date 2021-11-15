@@ -27,7 +27,8 @@ def tenantSignup():
 @app.route('/registerTenant', methods = ['POST', 'GET'])
 def registerTenant():
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="34.69.21.211",
+        			 port=3306,
                                 user="root",
                                 password="root",
                                 database="user",

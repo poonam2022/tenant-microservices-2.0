@@ -17,7 +17,7 @@ def checkip():
 @app.route('/train',methods=['POST','GET'])
 def train():
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="127.0.0.1",
                                 user="root",
                                 password="root",
                                 database="travel",
@@ -36,7 +36,7 @@ def train():
 @app.route('/book/train/<string:tr_id>',methods=['GET','POST'])
 def book_train(tr_id):
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="127.0.0.1",
                                 user="root",
                                 password="root",
                                 database="travel",
@@ -80,7 +80,7 @@ def book_train(tr_id):
 @app.route('/flight',methods=['POST','GET'])
 def flight():
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="127.0.0.1",
                                 user="root",
                                 password="root",
                                 database="travel",
@@ -99,7 +99,7 @@ def flight():
 @app.route('/book/flight/<string:fl_id>',methods=['GET','POST'])
 def book_flight(fl_id):
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="127.0.0.1",
                                 user="root",
                                 password="root",
                                 database="travel",

@@ -15,7 +15,7 @@ def checkip():
 @app.route('/hotel',methods=['POST','GET'])
 def hotel():
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="127.0.0.1",
                                 user="root",
                                 password="root",
                                 database="stay",
@@ -35,7 +35,7 @@ def hotel():
 @app.route('/book/hotel/<string:ht_id>',methods=['GET','POST'])
 def book_hotel(ht_id):
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="127.0.0.1",
                                 user="root",
                                 password="root",
                                 database="stay",

@@ -27,8 +27,8 @@ def tenantSignup():
 @app.route('/registerTenant', methods = ['POST', 'GET'])
 def registerTenant():
     try:
-        mydb = mysql.connector.connect(host="34.69.21.211",
-        			 port=3306,
+        mydb = mysql.connector.connect(host="127.0.0.1",
+        			            port=3306,
                                 user="root",
                                 password="root",
                                 database="user",
@@ -79,7 +79,7 @@ def home3():
 @app.route('/tenantLogin', methods = ['POST', 'GET'])
 def loginTenant():
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="127.0.0.1",
                                 user="root",
                                 password="root",
                                 database="user",
@@ -129,7 +129,7 @@ def loginTenant():
 @app.route('/userSignup',methods=['GET','POST'])
 def user_signup():
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="127.0.0.1",
                                 user="root",
                                 password="root",
                                 database="user",
@@ -146,7 +146,7 @@ def user_signup():
 @app.route('/registerUser', methods = ['POST', 'GET'])
 def registerUser():
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="127.0.0.1",
                                 user="root",
                                 password="root",
                                 database="user",
@@ -187,7 +187,7 @@ def user_login():
 @app.route('/userLogin', methods = ['POST', 'GET'])
 def signIn_user():
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="127.0.0.1",
                                 user="root",
                                 password="root",
                                 database="user",

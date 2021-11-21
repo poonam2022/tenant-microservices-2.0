@@ -9,7 +9,7 @@ app.secret_key=os.urandom(24)
 @app.route('/taxi',methods=['POST','GET'])
 def taxi():
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="127.0.0.1",
                                 user="root",
                                 password="root",
                                 database="local_conveyance",
@@ -28,7 +28,7 @@ def taxi():
 @app.route('/book/taxi/<string:tx_id>',methods=['GET','POST'])
 def book_taxi(tx_id):
     try:
-        mydb = mysql.connector.connect(host="db",
+        mydb = mysql.connector.connect(host="127.0.0.1",
                                 user="root",
                                 password="root",
                                 database="local_conveyance",

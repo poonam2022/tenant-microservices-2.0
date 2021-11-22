@@ -12,7 +12,7 @@
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <!-- Brand -->
-  <form action="http://127.0.0.1:8000/tenantSignup" method="POST">
+  <form action="http://{{ url_user }}:8000/tenantSignup" method="POST">
 						<div class="flex-col-c p-t-155 navbar-brand">
 							
 							<input id="otherPage" type="submit" name="tenants" value="Tenants">
@@ -20,14 +20,14 @@
 						</div>
 				</form> 
  
-<a class="navbar-brand" href="http://127.0.0.1:8000/userSignup">users</a>
+<a class="navbar-brand" href="http://{{ url_user }}:8000/userSignup">users</a>
   <!-- Links -->
  
 </nav>
 </body>
 </html>
 
-<!-- mydb = mysql.connector.connect(host="127.0.0.1",
+<!-- mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="tenantapp",

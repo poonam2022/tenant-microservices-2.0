@@ -2,16 +2,23 @@ import requests
 from flask import Flask, render_template, request,session
 import os
 import mysql.connector
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key=os.urandom(24)
+url_stay= os.getenv('URL_STAY')
+url_travel= os.getenv('URL_TRAVEL')
+url_conveyance= os.getenv('URL_CONVEYANCE')
+url_user= os.getenv('URL_USER')
 
 ports_map={"flight":"8001", "taxi":"8003", "hotel":"8002", "train":"8001"}
+url_map={"flight":url_travel, "taxi":url_conveyance, "hotel":url_stay, "train":url_travel}
 
 @app.route('/',methods = ['POST','GET'])
 def home():
     try:
-        return render_template("home.html")
+        return render_template("home.html", url_user=url_user)
     except Exception as e:
         return(str(e))
 
@@ -19,7 +26,7 @@ def home():
 @app.route('/tenantSignup', methods = ['POST','GET'])
 def tenantSignup():
     try:
-        return render_template("tenant_signup.html")
+        return render_template("tenant_signup.html", url_user=url_user)
     except Exception as e:
         return(str(e))
 
@@ -27,8 +34,7 @@ def tenantSignup():
 @app.route('/registerTenant', methods = ['POST', 'GET'])
 def registerTenant():
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
-        			            port=3306,
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="user",
@@ -64,7 +70,7 @@ def registerTenant():
                     records=(username,service)
                     mycursor.execute(query1,records)
                     mydb.commit()
-            return render_template("tenant_login.html")
+            return render_template("tenant_login.html",url_user = url_user)
 
     except Exception as e:
         return(str(e))
@@ -72,14 +78,14 @@ def registerTenant():
 @app.route('/toLogin', methods = ['POST','GET'])
 def home3():
     try:
-        return render_template("tenant_login.html")
+        return render_template("tenant_login.html",url_user = url_user)
     except Exception as e:
         return(str(e)) 
 
 @app.route('/tenantLogin', methods = ['POST', 'GET'])
 def loginTenant():
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="user",
@@ -115,7 +121,7 @@ def loginTenant():
                     mycursor.execute(query2,rec_tup)
                     service_list=mycursor.fetchall()
                     print(service_list)
-                    return render_template("tenant_home.html",services_list=service_list)
+                    return render_template("tenant_home.html",services_list=service_list, url_user = url_user)
                 else:
                     print("username password wrong")
                     return render_template('Err.html', message="Username/Password Wrong")
@@ -129,7 +135,7 @@ def loginTenant():
 @app.route('/userSignup',methods=['GET','POST'])
 def user_signup():
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="user",
@@ -139,14 +145,14 @@ def user_signup():
         mycursor.execute(query)
         tenants=mycursor.fetchall()
         
-        return render_template("user_signup.html",len=len(tenants),tenants=tenants)
+        return render_template("user_signup.html",len=len(tenants),tenants=tenants, url_user = url_user)
     except Exception as e:
         return(str(e))
 
 @app.route('/registerUser', methods = ['POST', 'GET'])
 def registerUser():
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="user",
@@ -173,21 +179,21 @@ def registerUser():
                 records = (username, t_username, password)
                 mycursor.execute(mysql_query, records)
                 mydb.commit()
-            return render_template("user_login.html")
+            return render_template("user_login.html", url_user = url_user)
     except Exception as e:
         return(str(e))
 
 @app.route('/userLoginPage',methods=['GET','POST'])
 def user_login():
     try:
-        return render_template("user_login.html")
+        return render_template("user_login.html", url_user = url_user)
     except Exception as e:
         return(str(e))
 
 @app.route('/userLogin', methods = ['POST', 'GET'])
 def signIn_user():
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="user",
@@ -210,7 +216,7 @@ def signIn_user():
                     servicess=mycursor.fetchall()
                     print(servicess)
                     ports_map={"flight":"8001", "taxi":"8003", "hotel":"8002", "train":"8001"}
-                    return render_template("user_home.html",user=curr_user,t_username=t_username,services=servicess, ports_map=ports_map)
+                    return render_template("user_home.html",user=curr_user,t_username=t_username,services=servicess, ports_map=ports_map, url_user = url_user, url_map = url_map)
 
             username = request.form["username"]
             password = request.form["password"]
@@ -236,7 +242,7 @@ def signIn_user():
 
                     ports_map={"flight":"8001", "taxi":"8003", "hotel":"8002", "train":"8001"}
                     
-                    return render_template("user_home.html",user=session['user'],t_username=t_username,services=servicess,ports_map=ports_map)
+                    return render_template("user_home.html",user=session['user'],t_username=t_username,services=servicess,ports_map=ports_map, url_user = url_user, url_map = url_map)
                 else:
                     print("username password wrong")
                     return render_template('Err.html', message="Username/Password Wrong")
@@ -250,7 +256,7 @@ def signIn_user():
 def logout():
     try:
         session.pop('user',None)
-        return render_template('home.html')
+        return render_template('home.html', url_user=url_user)
     except Exception as e:
         return(str(e))
 

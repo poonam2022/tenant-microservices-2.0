@@ -5,7 +5,10 @@ import mysql.connector
 
 app = Flask(__name__)
 app.secret_key=os.urandom(24)
-
+url_stay= os.getenv('URL_STAY')
+url_travel= os.getenv('URL_TRAVEL')
+url_conveyance= os.getenv('URL_CONVEYANCE')
+url_user= os.getenv('URL_USER')
 
 @app.route('/checkip')
 def checkip():
@@ -17,7 +20,7 @@ def checkip():
 @app.route('/train',methods=['POST','GET'])
 def train():
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="travel",
@@ -27,16 +30,16 @@ def train():
             query="select * from train"
             mycursor.execute(query)
             trains=mycursor.fetchall()
-            return render_template('train.html',trains=trains)
+            return render_template('train.html',trains=trains, url_travel=url_travel)
         else:
-            return render_template('home.html')
+            return render_template('home.html', url_user=url_user)
     except Exception as e:
         return(str(e))
 
 @app.route('/book/train/<string:tr_id>',methods=['GET','POST'])
 def book_train(tr_id):
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="travel",
@@ -71,7 +74,7 @@ def book_train(tr_id):
             else:
                 return 'no seats available'
         else:
-            return render_template('home.html')
+            return render_template('home.html', url_user=url_user)
 
     except Exception as e:
         return(str(e))
@@ -80,7 +83,7 @@ def book_train(tr_id):
 @app.route('/flight',methods=['POST','GET'])
 def flight():
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="travel",
@@ -90,16 +93,16 @@ def flight():
             query="select * from flight"
             mycursor.execute(query)
             flights=mycursor.fetchall()
-            return render_template('flight.html',flights=flights)
+            return render_template('flight.html',flights=flights, url_travel=url_travel)
         else:
-            return render_template('home.html')
+            return render_template('home.html', url_user=url_user)
     except Exception as e:
         return(str(e))
 
 @app.route('/book/flight/<string:fl_id>',methods=['GET','POST'])
 def book_flight(fl_id):
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="travel",
@@ -133,7 +136,7 @@ def book_flight(fl_id):
             else:
                 return 'no seats available'
         else:
-            return render_template('home.html')
+            return render_template('home.html', url_user=url_user)
 
     except Exception as e:
         return(str(e))

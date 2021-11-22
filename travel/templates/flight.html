@@ -26,7 +26,7 @@
         <!-- <td>{{flight[5]}}</td> -->
         
 		<!-- <td><a href="http://127.0.0.1:8000/book_flight/{{flight[0]}}"><button>BOOK NOW</button></a></td> -->
-        <td><a href="http://127.0.0.1:8001/book/flight/{{flight[0]}}"><button>BOOK NOW</button></a></td>
+        <td><a href="http://{{ url_travel }}:8001/book/flight/{{flight[0]}}"><button>BOOK NOW</button></a></td>
 	</tr>
 {% endfor %}
 

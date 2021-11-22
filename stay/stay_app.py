@@ -5,6 +5,10 @@ import mysql.connector
 
 app = Flask(__name__)
 app.secret_key=os.urandom(24)
+url_stay= os.getenv('URL_STAY')
+url_travel= os.getenv('URL_TRAVEL')
+url_conveyance= os.getenv('URL_CONVEYANCE')
+url_user= os.getenv('URL_USER')
 
 @app.route('/checkip')
 def checkip():
@@ -15,7 +19,7 @@ def checkip():
 @app.route('/hotel',methods=['POST','GET'])
 def hotel():
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="stay",
@@ -25,9 +29,9 @@ def hotel():
             query="select * from hotel"
             mycursor.execute(query)
             hotels=mycursor.fetchall()
-            return render_template('hotel.html',hotels=hotels)
+            return render_template('hotel.html',hotels=hotels, url_stay=url_stay)
         else:
-            return render_template('home.html')
+            return render_template('home.html', url_user = url_user)
 
     except Exception as e:
         return(str(e))
@@ -35,7 +39,7 @@ def hotel():
 @app.route('/book/hotel/<string:ht_id>',methods=['GET','POST'])
 def book_hotel(ht_id):
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="stay",
@@ -69,7 +73,7 @@ def book_hotel(ht_id):
             else:
                 return 'no rooms available'
         else:
-            return render_template('home.html')
+            return render_template('home.html', url_user=url_user)
     except Exception as e:
         return(str(e))
 

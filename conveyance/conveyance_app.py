@@ -5,11 +5,16 @@ import mysql.connector
 
 app = Flask(__name__)
 app.secret_key=os.urandom(24)
+url_stay= os.getenv('URL_STAY')
+url_travel= os.getenv('URL_TRAVEL')
+url_conveyance= os.getenv('URL_CONVEYANCE')
+url_user= os.getenv('URL_USER')
+url_db= os.getenv('URL_DB')
 
 @app.route('/taxi',methods=['POST','GET'])
 def taxi():
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="local_conveyance",
@@ -19,16 +24,16 @@ def taxi():
             query="select * from taxi"
             mycursor.execute(query)
             taxis=mycursor.fetchall()
-            return render_template('taxi.html',taxis=taxis)
+            return render_template('taxi.html',taxis=taxis, url_conveyance=url_conveyance)
         else:
-            return render_template('home.html')
+            return render_template('home.html', url_user = url_user)
     except Exception as e:
         return(str(e))
 
 @app.route('/book/taxi/<string:tx_id>',methods=['GET','POST'])
 def book_taxi(tx_id):
     try:
-        mydb = mysql.connector.connect(host="127.0.0.1",
+        mydb = mysql.connector.connect(host=url_db,
                                 user="root",
                                 password="root",
                                 database="local_conveyance",
@@ -55,7 +60,7 @@ def book_taxi(tx_id):
             last_record=records[length-1]
             return render_template('taxi_confirm.html',id=last_record[0],other=rec_tup)
         else:
-            return render_template('home.html')
+            return render_template('home.html', url_user = url_user)
 
     except Exception as e:
         return(str(e))

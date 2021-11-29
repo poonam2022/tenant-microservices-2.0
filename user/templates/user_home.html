@@ -9,10 +9,10 @@ hello {{user}}
 <br>
 your tenant's services are
 {% for service in services %}
-<!-- <a href="http://127.0.0.1:8000/api/{{tid}}/book/{{service[0]}}/1">{{service[0]}} </a> -->
-<a href="http://{{ url_map[service[0]] }}:{{ports_map[service[0]]}}/{{service[0]}}">{{service[0]}}</a>
+<!-- <a href="http://127.0.0.1/api/{{tid}}/book/{{service[0]}}/1">{{service[0]}} </a> -->
+<a href="http://{{ url_map[service[0]] }}/{{service[0]}}">{{service[0]}}</a>
 {%endfor%}
- <a href="http://{{ url_user }}:8000/logout"><button> logout </button></a>
+ <a href="http://{{ url_user }}/logout"><button> logout </button></a>
 <br>
 </body>
 </html>
